@@ -4,10 +4,11 @@ import tasksRouter from './api/tasks';
 import cors from 'cors';
 import usersRouter from './api/users';
 import './db';
-
+import authenticate from './authenticate';
 
 dotenv.config();
 
+// eslint-disable-next-line no-unused-vars
 const errHandler = (err, req, res, next) => {
   if(process.env.NODE_ENV === 'production') {
     return res.status(500).send(`Something went wrong!`);
@@ -26,7 +27,8 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-app.use('/api/tasks', tasksRouter);
+
+app.use('/api/tasks', authenticate, tasksRouter);
 app.use('/api/users', usersRouter);
 app.use(errHandler);
 
